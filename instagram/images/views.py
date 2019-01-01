@@ -46,9 +46,8 @@ class LikeImage(APIView):
                 creator = user,
                 image = found_image
             )
-            preexisiting_like.delete()
 
-            return Response(status=status.HTTP_202_ACCEPTED)
+            return Response(status=status.HTTP_304_NOT_MODIFIED)
 
         except models.Like.DoesNotExist:
 
@@ -61,6 +60,32 @@ class LikeImage(APIView):
 
             return Response(status=status.HTTP_201_CREATED)
 
+class UnLikeImage(APIView):
+
+    def delete(self, request, image_id, format=None):
+
+        user = request.user
+
+        try:
+            found_image = models.Image.objects.get(id=image_id)
+
+        except models.Image.DoseNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        try:
+            preexisting_like = models.Like.objects.get(
+                creator=user,
+                image=found_image,
+            )
+
+            preexisting_like.delete()
+
+            return Response(status=status.HTTP_202_ACCEPTED)
+
+        except:
+
+            return Response(status=status.HTTP_304_NOT_MODIFIED)
+
 class CommentOnImage(APIView):
 
     def post(self, request, image_id, format=None):
@@ -72,7 +97,7 @@ class CommentOnImage(APIView):
         try:
             found_image = models.Image.objects.get(id=image_id)
 
-        except models.Image.DoesNotExisit:
+        except models.Image.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         if serializer.is_valid():
 
@@ -85,3 +110,18 @@ class CommentOnImage(APIView):
             return Response(data=serializer.data, status=status.HTTP_400_BAD_REQUEST)
 
         return Response(status=status.HTTP_200_OK)
+
+class Comment(APIView):
+
+    def delete(self, request, comment_id, format=None):
+
+        user = request.user
+
+        try:
+            found_comment = models.Comment.objects.get(id=comment_id, creator=user)
+            found_comment.delete()
+
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        except models.Comment.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
