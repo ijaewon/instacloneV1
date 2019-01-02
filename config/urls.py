@@ -20,6 +20,10 @@ urlpatterns = [
         include("instagram.users.urls", namespace="users"),
     ),
     path(
+        "notifications/",
+        include("instagram.notifications.urls", namespace="notifications"),
+    ),
+    path(
         "images/",
         include("instagram.images.urls", namespace="images"),
     ),
