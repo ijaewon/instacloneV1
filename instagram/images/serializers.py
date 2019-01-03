@@ -69,4 +69,15 @@ class ImageSerializer(serializers.ModelSerializer):
             'creator',
             'created_at'
         )
+
+class InputImageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.Image
+        fields = (
+            'id',
+            'file',
+            'location',
+            'caption',
+        )
     
