@@ -160,11 +160,11 @@ class ChangePassword(APIView):
 
         if user.username == username:
 
-            current_password = request.data.get('current_password', None)
+            current_password = request.data.get('current_password', None) #없으면 None
 
             if current_password is not None:
 
-                password_match = user.check_password(current_password)
+                password_match = user.check_password(current_password) #현재 비번이 맞는지 체크(boolean리턴)
 
                 if password_match:
 
