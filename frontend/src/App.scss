@@ -1,3 +1,5 @@
+$bg-color: yellow;
+
 .App {
   text-align: center;
 }
@@ -19,7 +21,7 @@
 }
 
 .App-link {
-  color: #61dafb;
+  color: $bg-color;
 }
 
 @keyframes App-logo-spin {
