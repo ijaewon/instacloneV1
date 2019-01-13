@@ -4,6 +4,8 @@ import thunk from 'redux-thunk';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import createHistory from 'history/createBrowserHistory';
 import users from 'redux/modules/users';
+//import Reactotron from "reactotronConfig";
+import { composeWithDevTools } from "redux-devtools-extension";
 
 const history = createHistory();
 const middlewares = [thunk, routerMiddleware(history)];
@@ -20,11 +22,16 @@ const reducer = history => combineReducers({
   router: connectRouter(history),
 });
 
-// 다음 처럼 하면 초기값을 지정할 수 있음:
-// initialStore => createStore(reducer, initialStore)
-// initialStore => createStore(reducer, initialStore || undefined) 되는지 확인하기
-const store = initialStore => 
+let store;
+
+if (env === 'development') {
+  store = initialStore => 
+  //Reactotron.createStore(reducer(history), composeWithDevTools(applyMiddleware(...middlewares)));
+  createStore(reducer(history), composeWithDevTools(applyMiddleware(...middlewares)));
+}else{
+  store = initialStore => 
   createStore(reducer(history), applyMiddleware(...middlewares));
+}
 
 export { history };
 
