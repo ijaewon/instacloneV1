@@ -3,9 +3,10 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import createHistory from 'history/createBrowserHistory';
-import users from 'redux/modules/users';
+import user from 'redux/modules/user';
 //import Reactotron from "reactotronConfig";
 import { composeWithDevTools } from "redux-devtools-extension";
+import { i18nState } from "redux-i18n";
 
 const history = createHistory();
 const middlewares = [thunk, routerMiddleware(history)];
@@ -18,8 +19,9 @@ if (env === 'development') {
 }
 
 const reducer = history => combineReducers({
-  users,
+  user,
   router: connectRouter(history),
+  i18nState
 });
 
 let store;
