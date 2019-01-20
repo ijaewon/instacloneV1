@@ -1,5 +1,5 @@
 export const translations = {
-    es:{
-        "Login In" : "Iniciar Session"
+    es: {
+        "Login in": "Iniciar Session"
     }
 }

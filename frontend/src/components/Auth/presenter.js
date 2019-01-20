@@ -1,13 +1,13 @@
 
 import React from "react";
 import "./styles.scss";
-import { LoginForm, SignupForm } from 'components/AuthForms';
+import { LoginForm, SignupForm } from '../AuthForms';
 
 const Auth = (props, context) => (
   <main className="auth">
-    {/* <div className="column">
-      <img src={require("images/phone.png")} alt="Checkout our app. Is cool" />
-    </div> */}
+    <div className="column">
+      <img className="phone-img" src={require("images/phone.png")} alt="Checkout our app. Is cool" />
+    </div>
     <div className="column">
         <div className="white-box">
             {props.action === 'login' && <LoginForm/>}

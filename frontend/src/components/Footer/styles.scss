@@ -1,6 +1,6 @@
-@import "../../config/variables";
+@import '../../config/variables';
 
-.Footer{
+.footer {
     max-width: $max-page-width;
     width: 100%;
     margin: 55px auto;
@@ -8,36 +8,25 @@
     align-items: center;
     justify-content: space-between;
     font-weight: 600;
-    font-size: $small-font-size;
     text-transform: uppercase;
+    font-size: $small-font-size;
     flex-wrap: wrap;
-    @include breakpoint(mobileonly){
-        justify-content: center;
+    .column {
+      margin-bottom: 15px;
+      .nav {
+        .list {
+          display: flex;
+          flex-wrap: wrap;
+          .list-item {
+            margin-right: 15px;
+            color: $dark-blue;
+            cursor: pointer;
+          }
+        }
+      }
+      .copyright {
+        color: $dark-grey;
+      }
     }
-    .footer-column{
-        margin-bottom: 15px;
-        @include breakpoint(mobileonly){
-            margin-bottom: 0;
-        }
-        .footer-nav{
-            .footer-list{
-                display: flex;
-                flex-wrap: wrap;
-                @include breakpoint(mobileonly){
-                    justify-content: center;
-                }
-                .footer-list-item{
-                    margin-right: 15px;
-                    color: $dark-blue;
-                    cursor: pointer;
-                    @include breakpoint(mobileonly){
-                        margin-bottom: 15px;
-                    }
-                }
-            }
-        }
-        .footer-copyright{
-            color: $dark-grey;
-        }
-    }
-}
+  }
+  

@@ -8,4 +8,4 @@ const mapStateToProps = (state, ownProps)=>{
     };
 };
 
-export default connect(mapStateToProps)(Container)
+export default connect(mapStateToProps)(Container);
