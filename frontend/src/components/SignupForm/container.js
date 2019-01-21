@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import SignupForm from "./presenter";
+import propTypes from 'prop-types';
 
 class Container extends Component{
     state= {
@@ -8,6 +9,11 @@ class Container extends Component{
         email: '',
         fullName: '',
     };
+
+    static propTypes = {
+        facebookLogin: propTypes.func.isRequired,
+    };
+
     render(){
         const { email, fullName, username, password } = this.state;
         return(
@@ -36,7 +42,8 @@ class Container extends Component{
     };
 
     _handleFacebookLogin = response => {
-        console.log(response);
+         const { facebookLogin } = this.props;
+        facebookLogin(response.accessToken);
     }
 };
    
