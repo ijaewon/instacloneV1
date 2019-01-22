@@ -9,11 +9,11 @@ import {translations} from './translations';
 
 ReactDOM.render(
     <Provider store={store}>
-        <ConnectedRouter history={history}>
-            <I18n translations={translations} initialLang="en" fallbackLang="en">
-                <App />
-            </I18n>
-        </ConnectedRouter>
+        <I18n translations={translations} initialLang="en" fallbackLang="en">
+            <ConnectedRouter history={history}>
+                <App />    
+             </ConnectedRouter>
+        </I18n>
   </Provider>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
