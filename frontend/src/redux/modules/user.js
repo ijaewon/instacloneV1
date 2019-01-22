@@ -8,7 +8,7 @@ function saveToken(token){
 }
 
 function facebookLogin(access_token) {
-    return function(dispatch) {
+    return dispatch => {
       fetch("/users/login/facebook/", {
         method: "POST",
         headers: {
@@ -21,6 +21,7 @@ function facebookLogin(access_token) {
         .then(response => response.json())
         .then(json => {
           if(json.token){
+            localStorage.setItem('jwt', json.token);
             dispatch(saveToken(json.token));
           }
         })
@@ -29,7 +30,7 @@ function facebookLogin(access_token) {
   }
 
   function usernameLogin(username, password){
-    return function(dispatch) {
+    return dispatch => {
       fetch('/rest-auth/login/', {
         method: "POST",
         headers: {
@@ -43,6 +44,7 @@ function facebookLogin(access_token) {
       .then(response => response.json())
       .then(json => {
         if(json.token){
+          localStorage.setItem('jwt', json.token);
           dispatch(saveToken(json.token));
         }
       })
@@ -51,7 +53,7 @@ function facebookLogin(access_token) {
   }
 
 function createAccount(username, password, email, name) {
-  return function(dispatch) {
+  return dispatch => {
     fetch('/rest-auth/registration/', {
       method: "POST",
       headers: {
@@ -68,6 +70,7 @@ function createAccount(username, password, email, name) {
     .then(response => response.json())
     .then(json => {
       if(json.token){
+        localStorage.setItem('jwt', json.token);
         dispatch(saveToken(json.token));
       }
     })
@@ -77,7 +80,8 @@ function createAccount(username, password, email, name) {
 
 
 const initialState = {
-    isLoggedIn: localStorage.getItem('jwt')? true : false
+    isLoggedIn: localStorage.getItem('jwt')? true : false,
+    token: localStorage.getItem('jwt')
 }
 
 function reducer(state=initialState, action){
@@ -91,11 +95,11 @@ function reducer(state=initialState, action){
 
 function applySetToken(state, action){
   const { token } = state;
-  localStorage.setItem('jwt', token);
+  // localStorage.setItem('jwt', token);
   return {
     ...state,
     isLoggedIn: true,
-    token: token
+    token
   }
 }
 
