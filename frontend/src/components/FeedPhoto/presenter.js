@@ -10,15 +10,15 @@ const FeedPhoto = (props, context) => {
     console.log(props);
     return (
     <div className="feed-photo">
-        <header>
+        <header className="header">
             <img 
                 className="profile-img-size"
                 src={props.creator.profile_image || require("images/noPhoto.jpg")}
                 alt={props.creator.username}
             />
-            <div>
-                <span>{props.creator.username}</span>
-                <span>{props.location}</span>
+            <div className="header-column">
+                <span className="creator">{props.creator.username}</span>
+                <span className="location">{props.location}</span>
             </div>
         </header>
         <img 
@@ -26,7 +26,7 @@ const FeedPhoto = (props, context) => {
             src={props.file} 
             alt={props.cation}
         />
-        <div>
+        <div className="meta">
             <PhotoActions number={props.like_count} />
             <PhotoComments
                 caption={props.caption}
