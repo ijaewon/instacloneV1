@@ -1,0 +1,21 @@
+@import '../../config/variables';
+
+.feed-photo{
+    @include boxBorder(yes);
+    width: 100%;
+    max-width: $max-card-width;
+    margin-bottom: 60px;
+    &:last-child{
+        margin-bottom: 0;
+    }
+    .profile-img-size{
+        max-width: 128px;
+        max-height: 128px;
+    }
+    .img-size{
+        width: auto;
+        height: auto;
+        max-width: 600px;
+        max-height: 900px;
+    }
+}

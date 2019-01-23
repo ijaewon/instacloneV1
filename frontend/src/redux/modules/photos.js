@@ -5,6 +5,7 @@
 // actions
 
 const SET_FEED = "SET_FEED";
+// const LIKE_PHOTO = "LIKE_PHOTO";
 
 // action creators
 
