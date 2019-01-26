@@ -5,7 +5,8 @@
 // actions
 
 const SET_FEED = "SET_FEED";
-// const LIKE_PHOTO = "LIKE_PHOTO";
+const LIKE_PHOTO = "LIKE_PHOTO";
+const UNLIKE_PHOTO = "UNLIKE_PHOTO";
 
 // action creators
 
@@ -13,7 +14,21 @@ function setFeed(feed){
   return {
     type: "SET_FEED",
     feed
-  }
+  };
+}
+
+function doLikePhoto(photoId){
+  return {
+    type: "LIKE_PHOTO",
+    photoId
+  };
+}
+
+function doUnLikePhoto(photoId){
+  return {
+    type: "UNLIKE_PHOTO",
+    photoId
+  };
 }
 
 // API Actions
@@ -31,6 +46,40 @@ function getFeed() {
         .catch(err => console.log(err));
     };
   }
+
+  function likePhoto(photoId) {
+    return (dispatch, getState) => {
+      dispatch(doLikePhoto(photoId));
+      const { user: { token } } = getState();
+      fetch(`/images/${photoId}/likes/`, {
+        method: "POST",
+        headers: {
+          Authorization: `JWT ${token}`
+        }
+      }).then(response => {
+        if(!response.ok){
+          dispatch(doUnLikePhoto(photoId));
+        }
+      });
+    };
+  }
+
+  function unlikePhoto(photoId) {
+    return (dispatch, getState) => {
+      dispatch(doUnLikePhoto(photoId));
+      const { user: { token } } = getState();
+      fetch(`/images/${photoId}/unlikes/`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `JWT ${token}`
+        }
+      }).then(response => {
+        if (!response.ok){
+          dispatch(doLikePhoto(photoId));
+        }
+      });
+    };
+  }
   
   // Initial State
   
@@ -44,6 +93,10 @@ function getFeed() {
     switch (action.type) {
       case SET_FEED:
         return applySetFeed(state, action);
+      case LIKE_PHOTO:
+        return applyLikePhoto(state, action);
+      case UNLIKE_PHOTO:
+        return applyUnLikePhoto(state, action);
       default:
         return state;
     }
@@ -58,11 +111,37 @@ function getFeed() {
       feed,
     }
   }
+
+  function applyLikePhoto(state, action){
+    const { photoId } = action;
+    const { feed } = state;
+    const updatedFeed = feed.map(photo => {
+      if(photo.id === photoId){
+        return {...photo, is_liked: true, like_count: photo.like_count + 1}
+      }
+      return photo;
+    });
+    return {...state, feed: updatedFeed};
+  }
+
+  function applyUnLikePhoto(state, action){
+    const { photoId } = action;
+    const { feed } = state;
+    const updatedFeed = feed.map(photo => {
+      if(photo.id === photoId){
+        return {...photo, is_liked: false, like_count: photo.like_count - 1}
+      }
+      return photo;
+    });
+    return {...state, feed: updatedFeed};
+  }
   
   // Exports
   
   const actionCreators = {
-    getFeed
+    getFeed,
+    likePhoto,
+    unlikePhoto,
   };
   
   export { actionCreators };
