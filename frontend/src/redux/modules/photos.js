@@ -7,6 +7,7 @@
 const SET_FEED = "SET_FEED";
 const LIKE_PHOTO = "LIKE_PHOTO";
 const UNLIKE_PHOTO = "UNLIKE_PHOTO";
+const ADD_COMMENT = "ADD_COMMENT";
 
 // action creators
 
@@ -29,6 +30,14 @@ function doUnLikePhoto(photoId){
     type: "UNLIKE_PHOTO",
     photoId
   };
+}
+
+function addComment(photoId, message){
+  return {
+    type: "ADD_COMMENT",
+    photoId,
+    message
+  }
 }
 
 // API Actions
@@ -80,6 +89,28 @@ function getFeed() {
       });
     };
   }
+
+  function commentPhoto(photoId, message) {
+    return (dispatch, getState) => {
+      const { user: { token } } = getState();
+      fetch(`/images/${photoId}/comments/`, {
+        method: "POST",
+        headers: {
+          Authorization: `JWT ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          message
+        })
+      })
+      .then(response => response.json())
+      .then(json => {
+        if(json.message){
+          dispatch(addComment(photoId, json));
+        }
+      })
+    };
+  }
   
   // Initial State
   
@@ -97,6 +128,8 @@ function getFeed() {
         return applyLikePhoto(state, action);
       case UNLIKE_PHOTO:
         return applyUnLikePhoto(state, action);
+      case ADD_COMMENT:
+        return applyAddComment(state, action);
       default:
         return state;
     }
@@ -135,6 +168,21 @@ function getFeed() {
     });
     return {...state, feed: updatedFeed};
   }
+
+  function applyAddComment(state, action){
+    const { photoId, comment } = action;
+    const { feed } =state;
+    const updatedFeed = feed.map(photo => {
+      if(photo.id === photoId){
+        return {
+          ...photo, 
+          comments: [...photo.comments, comment]
+        };
+      }
+      return photo;
+    });
+    return {...state, feed: updatedFeed};
+  }
   
   // Exports
   
@@ -142,6 +190,7 @@ function getFeed() {
     getFeed,
     likePhoto,
     unlikePhoto,
+    commentPhoto,
   };
   
   export { actionCreators };
