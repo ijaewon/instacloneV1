@@ -37,10 +37,11 @@ _handleInputChange = event => {
     if (key === "Enter") {
       event.preventDefault();
       submitComment(comment);
+      this.setState({
+        comment: ""
+      });
     }
   };
 }
-
-
 
 export default Container;
