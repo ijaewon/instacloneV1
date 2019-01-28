@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+import propTypes from "prop-types";
 import "./styles.scss";
 
 const UserRow = (props, context) => (
@@ -8,7 +8,7 @@ const UserRow = (props, context) => (
       <img
         src={props.user.profile_image || require("images/noPhoto.jpg")}
         alt={props.user.username}
-        className={props.big ? "bigAvatar" : "avatar"}
+        className={props.big ? "bigAvatar" : 'avatar'}
       />
       <div className="user">
         <span className="username">{props.user.username}</span>
@@ -16,21 +16,27 @@ const UserRow = (props, context) => (
       </div>
     </div>
     <span className="column">
-      <button className="button">{context.t("Follow")}</button>
+      <button className="button" onClick={props.handleClick}>
+        {props.user.following ? context.t("Unfollow") : context.t("Follow")}
+      </button>
     </span>
   </div>
 );
 
 UserRow.contextTypes = {
-  t: PropTypes.func.isRequired
+  t: propTypes.func.isRequired
 };
 
 UserRow.propTypes = {
-  user: PropTypes.shape({
-    profile_image: PropTypes.string,
-    username: PropTypes.string.isRequired,
-    name: PropTypes.string
+  user: propTypes.shape({
+    id: propTypes.number.isRequired,
+    profile_image: propTypes.string,
+    username: propTypes.string.isRequired,
+    name: propTypes.string,
+    following: propTypes.bool.isRequired
   }).isRequired,
+  big: propTypes.bool,
+  handleClick: propTypes.func.isRequired
 };
 
 UserRow.defaultProps = {

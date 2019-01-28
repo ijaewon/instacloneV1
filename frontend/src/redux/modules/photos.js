@@ -13,28 +13,28 @@ const ADD_COMMENT = "ADD_COMMENT";
 
 function setFeed(feed){
   return {
-    type: "SET_FEED",
+    type: SET_FEED,
     feed
   };
 }
 
 function doLikePhoto(photoId){
   return {
-    type: "LIKE_PHOTO",
+    type: LIKE_PHOTO,
     photoId
   };
 }
 
 function doUnLikePhoto(photoId){
   return {
-    type: "UNLIKE_PHOTO",
+    type: UNLIKE_PHOTO,
     photoId
   };
 }
 
 function addComment(photoId, message){
   return {
-    type: "ADD_COMMENT",
+    type: ADD_COMMENT,
     photoId,
     message
   }
