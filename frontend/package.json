@@ -51,6 +51,7 @@
     "react-ionicons": "2.0.2",
     "react-redux": "^6.0.0",
     "react-router-dom": "^4.3.1",
+    "react-router-redux": "^4.0.8",
     "react-textarea-autosize": "^7.1.0",
     "reactotron-react-js": "^2.1.4",
     "reactotron-redux": "^2.1.3",

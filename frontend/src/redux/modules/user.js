@@ -4,6 +4,7 @@ const SET_USER_LIST = "SET_USER_LIST";
 const FOLLOW_USER = "FOLLOW_USER"; 
 const UNFOLLOW_USER = "UNFOLLOW_USER";
 const SET_EXPLORE = "SET_EXPLORE";
+const SET_IMAGE_LIST = "SET_IMAGE_LIST";
 
 function saveToken(token){
   return {
@@ -44,6 +45,13 @@ function setExplore(userList) {
     type: SET_EXPLORE,
     userList
   };
+}
+
+function setImageList(imageList){
+  return {
+    type: SET_IMAGE_LIST,
+    imageList
+  }
 }
 
 function facebookLogin(access_token) {
@@ -189,6 +197,36 @@ const initialState = {
     token: localStorage.getItem('jwt')
 }
 
+function searchByTerm(searchTerm){
+  return async(dispatch, getState) => {
+    const { user: {token}} = getState();
+    const userList = await searchUsers(token, searchTerm);
+    const imageList = await searchImages(token, searchTerm);
+    dispatch(setUserList(userList));
+    dispatch(setImageList(imageList));
+  }
+}
+
+function searchUsers(token, searchTerm){
+  return fetch(`/users/search/?username=${searchTerm}/`, {
+    headers: {
+      Authorization: `JWT ${token}`
+    }
+  })
+  .then(response => response.json())
+  .then(json => json);
+}
+
+function searchImages(token, searchTerm){
+  return fetch(`/images/search/?hashtags=${searchTerm}/`, {
+    headers: {
+      Authorization: `JWT ${token}`
+    }
+  })
+  .then(response => response.json())
+  .then(json => json);
+}
+
 function reducer(state=initialState, action){
     switch(action.type){
       case SAVE_TOKEN:
@@ -201,6 +239,8 @@ function reducer(state=initialState, action){
         return applyFollowUser(state, action);
       case UNFOLLOW_USER:
         return applyUnFollowUser(state, action);
+      case SET_IMAGE_LIST:
+        return applySetImageList(state, action);
       default:
         return state;
     }
@@ -255,6 +295,14 @@ function applyUnFollowUser(state, action){
   return {...state, userList: updatedUserList};
 }
 
+function applySetImageList(state, action){
+  const { imageList } = action;
+  return {
+    ...state,
+    imageList
+  };
+}
+
 const actionCreators = {
     facebookLogin,
     usernameLogin,
@@ -264,6 +312,7 @@ const actionCreators = {
     followUser,
     unfollowUser,
     getExplore,
+    searchByTerm
   };
   
   export { actionCreators };
