@@ -24,9 +24,12 @@ const RenderFeed = props => (
   </div>
 );
 
+
+
 Feed.propTypes = {
   loading: propTypes.bool.isRequired,
   feed: propTypes.array
 };
+
 
 export default Feed;

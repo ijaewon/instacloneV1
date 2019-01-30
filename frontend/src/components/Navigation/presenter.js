@@ -3,6 +3,7 @@ import Ionicon from "react-ionicons";
 import propTypes from "prop-types";
 import { Link } from "react-router-dom";
 import "./styles.scss";
+import Logout from 'components/Logout';
 
 const Navigation = (props, context) => (
   <div className="navigation">
@@ -37,9 +38,12 @@ const Navigation = (props, context) => (
           <Ionicon icon="ios-heart-outline" fontSize="28px" color="black" />
         </div>
         <div className="nav-icon">
-          <Link to="/profile">
+          {/* <Link to="/profile">
             <Ionicon icon="ios-person-outline" fontSize="32px" color="black" />
-          </Link>
+          </Link> */}
+          <Logout >
+            <Ionicon icon="ios-person-outline" fontSize="32px" color="black" />
+          </Logout>
         </div>
       </div>
     </div>

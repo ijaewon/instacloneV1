@@ -88,7 +88,12 @@ function facebookLogin(access_token) {
           password
         })
       })
-      .then(response => response.json())
+      .then(response => {
+        if(response.status === 400){
+          return "아이디 또는 비밀번호가 틀렸습니다.";
+        }
+        return response.json();
+      })
       .then(json => {
         if(json.token){
           localStorage.setItem('jwt', json.token);
